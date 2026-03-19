@@ -370,7 +370,7 @@ def fetch_html_content(url):
         "sys.stdout.buffer.write(soup.get_text(separator='\\n', strip=True).encode('utf-8'))\n"
     )
     result = subprocess.run(
-        ["py", "-c", script],
+        ["python", "-c", script],
         capture_output=True,
         timeout=30,
         env={**os.environ, "PYTHONIOENCODING": "utf-8"}
@@ -393,7 +393,7 @@ def fetch_html_raw(url):
         "sys.stdout.buffer.write(content.encode('utf-8'))\n"
     )
     result = subprocess.run(
-        ["py", "-c", script],
+        ["python", "-c", script],
         capture_output=True,
         timeout=30,
         env={**os.environ, "PYTHONIOENCODING": "utf-8"}
