@@ -1,0 +1,5 @@
+anthropic
+streamlit
+playwright
+beautifulsoup4
+pymupdf
