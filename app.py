@@ -13,6 +13,10 @@ from urllib.parse import urlparse, urljoin
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
+password = st.text_input("Enter password to access", type="password")
+if password != "pickyeater12":
+    st.stop()
+
 st.set_page_config(
     page_title="Picky Eater - Vegetarian & Vegan Menu Finder",
     page_icon="🌿",
