@@ -13,10 +13,6 @@ from urllib.parse import urlparse, urljoin
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
-password = st.text_input("Enter password to access", type="password")
-if password != "pickyeater12":
-    st.stop()
-
 st.set_page_config(
     page_title="Picky Eater - Vegetarian & Vegan Menu Finder",
     page_icon="🌿",
@@ -258,7 +254,8 @@ LANGUAGE RULE: Menus may be in any language including Thai, Italian, French, Spa
 - "Gai" in Thai means chicken - exclude it
 - "Nua" in Thai means beef - exclude it
 - Italian: "polpo" is octopus, "tonno" is tuna, "acciughe" is anchovies, "prosciutto" is ham - exclude them
-- French: "canard" is duck, "saumon" is salmon, "thon" is tuna, "poulet" is chicken - exclude them
+- French: "canard" is duck, "saumon" is salmon, "thon" is tuna, "poulet" is chicken, "boeuf" is beef, "veau" is veal, "agneau" is lamb, "porc" is pork, "lapin" is rabbit, "lardons" are bacon bits, "jambon" is ham, "andouille" is sausage, "boudin" is blood sausage, "moules" are mussels, "crevettes" are shrimp, "homard" is lobster, "crabe" is crab, "huitres" are oysters, "Saint-Jacques" or "coquilles" are scallops, "foie" is liver - exclude all of these
+- French salads often contain lardons (bacon) even if not in the name - mark as UNSURE if salad description is unclear
 - When in doubt about a foreign language dish name, mark as POSSIBLE VEGETARIAN rather than VEGETARIAN
 
 UNSURE is ONLY for dishes where you have absolutely zero information about ingredients.
@@ -277,8 +274,9 @@ Key exclusions - exclude these silently:
 - Meatballs always contain meat - exclude them
 
 Egg rules:
-- Any dish with egg or eggs in the description cannot be VEGAN SAFE - mark as CONTAINS EGGS
+- Any dish with egg or eggs as an ingredient cannot be VEGAN SAFE - mark as CONTAINS EGGS
 - Eggs are never vegan regardless of cooking method or context
+- CRITICAL: "Eggplant" and "aubergine" are vegetables - they contain NO eggs. Never mark eggplant or aubergine as CONTAINS EGGS.
 
 Other rules:
 1. Do not use words like Remove, Skip, Excluded, Cannot anywhere in output
@@ -303,21 +301,22 @@ LANGUAGE RULE: Menus may be in any language.
 - "Moo" in Thai means pork - exclude it
 - "Gai" in Thai means chicken - exclude it
 - Italian: "polpo" is octopus, "tonno" is tuna - exclude them
-- French: "canard" is duck, "saumon" is salmon - exclude them
+- French: "canard" is duck, "saumon" is salmon, "thon" is tuna, "poulet" is chicken, "boeuf" is beef, "veau" is veal, "agneau" is lamb, "lardons" are bacon bits, "jambon" is ham, "moules" are mussels, "crevettes" are shrimp, "homard" is lobster, "huitres" are oysters - exclude all of these
 - When in doubt about a foreign language dish, mark as POSSIBLE VEGETARIAN
 
 GOLDEN RULE: Use your full food knowledge. If a dish contains any meat, fish, seafood or poultry - leave it out completely.
 
 Egg rules:
-- Any dish with egg in the description cannot be VEGAN SAFE - mark as CONTAINS EGGS
+- Any dish with egg or eggs as an ingredient cannot be VEGAN SAFE - mark as CONTAINS EGGS
 - Eggs are never vegan regardless of context
+- CRITICAL: "Eggplant" and "aubergine" are vegetables - they contain NO eggs. Never mark eggplant or aubergine as CONTAINS EGGS.
 
 Other rules:
 1. Do not use words like Remove, Skip, Excluded anywhere
 2. Do not include beverages, cocktails, wines or drinks
 3. If a section has nothing suitable write: SECTION: [name] then EMPTY on the next line"""
-import os
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+
+client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 results_lock = threading.Lock()
 
 MEAL_PERIODS = ["brunch", "lunch", "dinner", "breakfast", "happy hour", "late night", "supper"]
@@ -374,7 +373,7 @@ def fetch_html_content(url):
         "sys.stdout.buffer.write(soup.get_text(separator='\\n', strip=True).encode('utf-8'))\n"
     )
     result = subprocess.run(
-        ["python", "-c", script],
+        ["py", "-c", script],
         capture_output=True,
         timeout=30,
         env={**os.environ, "PYTHONIOENCODING": "utf-8"}
@@ -397,7 +396,7 @@ def fetch_html_raw(url):
         "sys.stdout.buffer.write(content.encode('utf-8'))\n"
     )
     result = subprocess.run(
-        ["python", "-c", script],
+        ["py", "-c", script],
         capture_output=True,
         timeout=30,
         env={**os.environ, "PYTHONIOENCODING": "utf-8"}
@@ -576,6 +575,10 @@ def parse_result(text):
                     continue
                 if "vegan" in category.lower() and "egg" in reason.lower():
                     category = "CONTAINS EGGS"
+                # Safety net: eggplant/aubergine are vegetables, never contain eggs
+                if any(v in dish_name.lower() for v in ["eggplant", "aubergine"]):
+                    if category == "CONTAINS EGGS":
+                        category = "VEGETARIAN"
                 dishes.append({
                     "section": current_section,
                     "name": dish_name,
