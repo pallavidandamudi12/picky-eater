@@ -316,7 +316,7 @@ Other rules:
 2. Do not include beverages, cocktails, wines or drinks
 3. If a section has nothing suitable write: SECTION: [name] then EMPTY on the next line"""
 
-client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
+client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 results_lock = threading.Lock()
 
 MEAL_PERIODS = ["brunch", "lunch", "dinner", "breakfast", "happy hour", "late night", "supper"]
