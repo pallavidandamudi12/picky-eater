@@ -16,7 +16,7 @@ import threading
 st.set_page_config(
     page_title="Picky Eater - Vegetarian & Vegan Menu Finder",
     page_icon="🌿",
-    layout="wide"
+    layout="centered"
 )
 
 st.markdown("""
@@ -25,210 +25,256 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
-    background-color: #eef4ee;
+    background-color: #faf8f5;
+    color: #1a1a18;
 }
 
 .main, .block-container {
-    background-color: #eef4ee;
-    padding-top: 2rem;
+    background-color: #faf8f5;
+    padding-top: 3rem;
+    max-width: 720px;
 }
 
 h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
-.hero-wrap {
-    background: linear-gradient(135deg, #7a9e7e 0%, #5f836a 100%);
-    border-radius: 20px;
-    padding: 40px 40px 32px;
-    margin-bottom: 24px;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
+.pe-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a9a92;
+    margin-bottom: 0.5rem;
 }
 
-.hero-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
-    background-size: 22px 22px;
-    border-radius: 20px;
-}
-
-.hero-title {
+.pe-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 3rem;
-    color: white;
-    letter-spacing: -0.02em;
-    margin-bottom: 6px;
-    position: relative;
+    font-size: 2.6rem;
+    color: #1a1a18;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
 }
 
-.hero-subtitle {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.8);
+.pe-subtitle {
+    font-size: 0.95rem;
+    color: #6a6a62;
     font-weight: 300;
-    position: relative;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.pe-divider {
+    border: none;
+    border-top: 1px solid #e8e4dc;
+    margin: 2rem 0;
 }
 
 .stTextInput > div > div > input {
     background: transparent !important;
     border: none !important;
+    border-bottom: 1px solid #e8e4dc !important;
+    border-radius: 0 !important;
     box-shadow: none !important;
-    padding: 0 !important;
+    padding: 8px 0 !important;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
-    color: #2c2c2a;
+    color: #1a1a18;
 }
 
 .stTextInput > div > div > input:focus {
-    border: none !important;
+    border-bottom: 1px solid #1a1a18 !important;
     box-shadow: none !important;
 }
 
 .stButton > button {
-    background: linear-gradient(135deg, #7a9e7e 0%, #5f836a 100%);
-    color: white;
+    background: #1a1a18;
+    color: #faf8f5;
     border: none;
-    border-radius: 12px;
-    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    padding: 0.65rem 2rem;
     font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    width: 100%;
     letter-spacing: 0.02em;
     transition: opacity 0.2s;
+    width: auto;
 }
 
-.stButton > button:hover { opacity: 0.9; }
+.stButton > button:hover { opacity: 0.8; }
 
-.restaurant-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
-    border: 1px solid #d4e8d4;
-    min-height: 420px;
-    margin-bottom: 16px;
-}
-
-.restaurant-card h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    color: #2c2c2a;
-    border-bottom: 2px solid #7a9e7e;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-}
-
-.dish-row {
-    padding: 7px 0;
-    border-bottom: 1px solid #eef4ee;
-}
-
-.dish-name { font-weight: 500; color: #2c2c2a; font-size: 0.88rem; }
-.dish-reason { color: #7a7a72; font-size: 0.78rem; margin-top: 2px; }
-
-.tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 0.68rem;
+.url-row-num {
+    font-size: 0.75rem;
+    color: #c8c4bc;
+    padding-top: 10px;
     font-weight: 500;
-    margin-bottom: 3px;
 }
 
-.tag-vegan { background: #27500a; color: #eaf3de; }
-.tag-vegetarian { background: #eef4e0; color: #4a6a1a; }
-.tag-eggs { background: #fef9c3; color: #854d0e; }
-.tag-gelatin { background: #f0eef8; color: #4a3a8a; }
-.tag-possible { background: #e8f2f8; color: #1a4a6a; }
-.tag-unsure { background: #f4f4f0; color: #5a5a52; }
+.pe-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
 
-.section-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+.pe-filter-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #7a9e7e;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    color: #9a9a92;
+    margin-right: 4px;
+}
+
+.restaurant-block {
+    margin-bottom: 2.5rem;
+}
+
+.restaurant-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: #1a1a18;
+    margin-bottom: 0;
+    display: inline;
 }
 
 .count-badge {
-    background: #7a9e7e;
-    color: white;
-    border-radius: 20px;
-    padding: 2px 10px;
     font-size: 0.72rem;
+    color: #9a9a92;
+    margin-left: 10px;
+    font-weight: 400;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.source-badge {
+    background: #f5f0e8;
+    color: #7a5a10;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.65rem;
     font-weight: 500;
     margin-left: 8px;
 }
 
-.source-badge {
-    background: #fdf3e0;
-    color: #7a5a10;
-    border-radius: 20px;
-    padding: 2px 8px;
+.section-label {
     font-size: 0.65rem;
     font-weight: 500;
-    margin-left: 6px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b8b4ac;
+    margin-top: 1.25rem;
+    margin-bottom: 0.4rem;
 }
 
-.section-hint {
-    font-size: 0.76rem;
-    color: #7a9e7e;
-    font-style: italic;
-    margin-top: 14px;
-    padding-top: 10px;
-    border-top: 1px solid #eef4ee;
-    line-height: 1.5;
+.dish-row {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid #f0ece4;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
 }
+
+.dish-row:last-child { border-bottom: none; }
+
+.dish-info { flex: 1; }
+.dish-name { font-weight: 500; color: #1a1a18; font-size: 0.92rem; margin-bottom: 2px; }
+.dish-reason { color: #9a9a92; font-size: 0.78rem; line-height: 1.4; }
+
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.tag-vegan { background: #173404; color: #c0dd97; }
+.tag-vegetarian { background: #eaf3de; color: #3b6d11; }
+.tag-eggs { background: #faeeda; color: #854f0b; }
+.tag-gelatin { background: #eeedfe; color: #534ab7; }
+.tag-possible { background: #f1efe8; color: #5f5e5a; }
+.tag-unsure { background: #f4f4f0; color: #8a8a82; }
+
+.blocked-card {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #f0ece4;
+}
+
+.blocked-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: #1a1a18;
+    margin-bottom: 0.4rem;
+}
+
+.blocked-msg { font-size: 0.85rem; color: #9a9a92; }
+.blocked-link { color: #4a6a1a; text-decoration: none; }
 
 .no-results-msg {
     font-size: 0.85rem;
     color: #9a9a92;
     font-style: italic;
-    padding: 12px 0;
+    padding: 0.75rem 0;
+}
+
+.section-hint {
+    font-size: 0.75rem;
+    color: #b8b4ac;
+    font-style: italic;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f0ece4;
+    line-height: 1.5;
+}
+
+.results-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9a9a92;
+    margin-bottom: 1.5rem;
 }
 
 .disclaimer {
-    font-size: 0.75rem;
-    color: #8ab48a;
+    font-size: 0.72rem;
+    color: #c8c4bc;
     text-align: center;
-    margin-top: 2rem;
-    padding: 1rem;
-    border-top: 1px solid #d4e8d4;
-}
-
-.results-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    color: #2c2c2a;
-    margin-bottom: 16px;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e8e4dc;
+    line-height: 1.6;
 }
 
 .stProgress > div > div > div > div {
-    background: linear-gradient(90deg, #7a9e7e, #5f836a) !important;
+    background: #1a1a18 !important;
     border-radius: 10px !important;
 }
 
 .stProgress > div > div {
-    background-color: #d4e8d4 !important;
+    background-color: #e8e4dc !important;
     border-radius: 10px !important;
-    height: 6px !important;
+    height: 3px !important;
 }
 
-.stMultiSelect [data-baseweb="tag"] {
-    background-color: #f1efe8 !important;
-    color: #2c2c2a !important;
+.loading-bar {
+    background: #faf8f5;
+    border: 1px solid #e8e4dc;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: #6a6a62;
+}
+
+/* Pills via Streamlit pills component */
+.stPills [data-baseweb="button-group"] button {
+    font-size: 0.75rem !important;
     border-radius: 20px !important;
-}
-
-.stMultiSelect [data-baseweb="tag"] span[role="presentation"] {
-    color: #2c2c2a !important;
-}
-
-.stMultiSelect [data-baseweb="select"] {
-    background-color: white !important;
-    border-color: #d4e8d4 !important;
+    border: 1px solid #e8e4dc !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 400 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -261,12 +307,17 @@ LANGUAGE RULE: Menus may be in any language including Thai, Italian, French, Spa
 
 UNSURE is ONLY for dishes where you have absolutely zero information about ingredients.
 
+POSSIBLE VEGETARIAN is ONLY for dishes where the ingredients are genuinely ambiguous — not for dishes where the exclusion is obvious. If you know the dish contains meat, fish, or seafood, exclude it silently. Do not use POSSIBLE VEGETARIAN as a soft exclusion.
+
+CUISINE RULE: For Thai, Vietnamese, and Chinese dishes, fish sauce and oyster sauce are common base ingredients even when not listed. Unless the dish is explicitly marked vegetarian or ingredients are confirmed clean, label as POSSIBLE VEGETARIAN rather than VEGETARIAN, and note "may contain fish sauce or oyster sauce" in the reason.
+
 Key exclusions - exclude these silently:
 - ALL Caesar salads contain anchovies - exclude every Caesar salad
 - Calamari is squid - exclude it
 - Ahi, Poke, Ahi Poke contains tuna - exclude it
 - Lox is smoked salmon - exclude it
 - Sweetbreads are organ meat - exclude them
+- Escargot and snails are animals - exclude them
 - Polpette means meatballs - exclude them
 - Tom Kha with chicken - exclude it
 - Pad See Ew and Pad See You contain fish sauce - exclude them
@@ -275,12 +326,14 @@ Key exclusions - exclude these silently:
 - Meatballs always contain meat - exclude them
 - Caviar and fish roe are fish products - exclude them entirely
 - Any dish containing jamon serrano, jamon iberico, or any cured ham - exclude it
+- Mussels, clams, oysters, scallops are shellfish - exclude them
+- Shrimp, lobster, crab are seafood - exclude them
 
 Egg and dairy rules:
 - Any dish with egg or eggs as an ingredient cannot be VEGAN SAFE - mark as CONTAINS EGGS
 - Eggs are never vegan regardless of cooking method or context
 - CRITICAL: "Eggplant" and "aubergine" are vegetables - they contain NO eggs. Never mark eggplant or aubergine as CONTAINS EGGS.
-- Aioli contains egg - any dish with aioli cannot be VEGAN SAFE, mark as VEGETARIAN
+- Aioli contains egg - any dish with aioli cannot be VEGAN SAFE, mark as VEGETARIAN or CONTAINS EGGS
 
 VEGAN SAFE rule - STRICT:
 - Only mark a dish VEGAN SAFE if the description explicitly lists ingredients that confirm it is vegan (e.g. "roasted vegetables, olive oil, sea salt")
@@ -315,6 +368,10 @@ LANGUAGE RULE: Menus may be in any language.
 
 GOLDEN RULE: Use your full food knowledge. If a dish contains any meat, fish, seafood or poultry - leave it out completely.
 
+POSSIBLE VEGETARIAN is ONLY for genuinely ambiguous cases — not for obvious exclusions.
+
+CUISINE RULE: For Thai, Vietnamese, and Chinese dishes, label as POSSIBLE VEGETARIAN unless explicitly confirmed vegetarian, and note "may contain fish sauce or oyster sauce."
+
 Egg rules:
 - Any dish with egg or eggs as an ingredient cannot be VEGAN SAFE - mark as CONTAINS EGGS
 - Eggs are never vegan regardless of context
@@ -336,7 +393,7 @@ FILTER_OPTIONS = {
     "Vegetarian": "VEGETARIAN",
     "Contains Eggs": "CONTAINS EGGS",
     "Contains Gelatin": "CONTAINS GELATIN",
-    "Possible Vegetarian": "POSSIBLE VEGETARIAN",
+    "Possibly Vegetarian": "POSSIBLE VEGETARIAN",
     "Unsure": "UNSURE",
 }
 
@@ -352,17 +409,22 @@ def check_robots(url):
         return True
 
 def fetch_pdf(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        tmp.write(urllib.request.urlopen(req).read())
-        tmp_path = tmp.name
-    doc = pymupdf.open(tmp_path)
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    doc.close()
-    os.unlink(tmp_path)
-    return text
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            tmp.write(urllib.request.urlopen(req).read())
+            tmp_path = tmp.name
+        doc = pymupdf.open(tmp_path)
+        text = ""
+        for page in doc:
+            text += page.get_text()
+        doc.close()
+        os.unlink(tmp_path)
+        return text
+    except urllib.error.HTTPError as e:
+        if e.code in [403, 401, 429]:
+            raise Exception(f"PDF_BLOCKED:{e.code}")
+        raise
 
 def fetch_html_content(url):
     script = (
@@ -494,9 +556,14 @@ def process_restaurant(index, url):
             root = f"{parsed.scheme}://{parsed.netloc}"
             if not check_robots(root):
                 return [(index, 0, base_name, "BLOCKED", [], False)]
-            content = fetch_pdf(url)
-            result = analyze_menu_text(content)
-            return [(index, 0, base_name, "DONE", parse_result(result), False)]
+            try:
+                content = fetch_pdf(url)
+                result = analyze_menu_text(content)
+                return [(index, 0, base_name, "DONE", parse_result(result), False)]
+            except Exception as e:
+                if "PDF_BLOCKED" in str(e):
+                    return [(index, 0, base_name, "SERVER_BLOCKED", [], False)]
+                raise
 
         if not check_robots(url):
             return [(index, 0, base_name, "BLOCKED", [], False)]
@@ -553,7 +620,8 @@ def parse_result(text):
         "contains chicken", "mackerel", "branzino", "catfish", "petrale",
         "sweetbread", "organ", "sole fillet", "contains shrimp",
         "contains bacon", "contains tuna", "contains salmon",
-        "contains crab", "contains lobster", "anchov"
+        "contains crab", "contains lobster", "anchov",
+        " - exclude", "exclude it"
     ]
     bad_dish_names = [
         "tuna", "blt", "salmon", "shrimp", "lobster", "crab", "bacon",
@@ -562,7 +630,8 @@ def parse_result(text):
         "guanciale", "nduja", "mortadella", "salami", "chorizo",
         "meatball", "polpette", "pad see ew", "pad see you", "pad thai",
         "tom kha", "sweetbread", "mackerel", "branzino", "catfish",
-        "petrale", "miang pla", "khao kluk", "gaeng som pla"
+        "petrale", "miang pla", "khao kluk", "gaeng som pla",
+        "escargot", "snail", "mussel", "clam", "oyster", "scallop"
     ]
     for line in text.strip().split("\n"):
         line = line.strip()
@@ -624,24 +693,25 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
     if status == "BLOCKED":
         google_url = f"https://www.google.com/search?q={name.replace(' ', '+')}+menu"
         st.markdown(f"""
-        <div class="restaurant-card">
-            <h3>{name}</h3>
-            <div class="dish-reason" style="margin-top:1rem">
-                This restaurant does not permit AI processing.<br>
-                <a href="{google_url}" target="_blank" style="color:#7a9e7e;">Search for their menu on Google</a>
-            </div>
+        <div class="blocked-card">
+            <div class="blocked-title">{name}</div>
+            <div class="blocked-msg">This site has asked not to be crawled. <a href="{google_url}" target="_blank" class="blocked-link">Search their menu on Google →</a></div>
+        </div>""", unsafe_allow_html=True)
+    elif status == "SERVER_BLOCKED":
+        google_url = f"https://www.google.com/search?q={name.replace(' ', '+')}+menu"
+        st.markdown(f"""
+        <div class="blocked-card">
+            <div class="blocked-title">{name}</div>
+            <div class="blocked-msg">This site is blocking automated access. <a href="{google_url}" target="_blank" class="blocked-link">Search their menu on Google →</a></div>
         </div>""", unsafe_allow_html=True)
     elif status == "ERROR":
         st.markdown(f"""
-        <div class="restaurant-card">
-            <h3>{name}</h3>
-            <div class="dish-reason" style="margin-top:1rem; color:#c45a5a">
-                {data}
-            </div>
+        <div class="blocked-card">
+            <div class="blocked-title">{name}</div>
+            <div class="blocked-msg" style="color:#c45a5a">{data}</div>
         </div>""", unsafe_allow_html=True)
     else:
         dishes = data
-        # Hide UNSURE by default unless explicitly filtered for
         if active_filters:
             dishes = [d for d in dishes if matches_filter(d["category"], active_filters)]
         else:
@@ -652,11 +722,13 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
         for d in dishes:
             sections.setdefault(d["section"], []).append(d)
 
-        source_badge = '<span class="source-badge">via menu image</span>' if status == "VISION" else ""
-        card_html = f'<div class="restaurant-card"><h3>{name} <span class="count-badge">{count} options</span>{source_badge}</h3>'
+        source_badge = '<span class="source-badge">via image</span>' if status == "VISION" else ""
+        card_html = f'<div class="restaurant-block"><div style="margin-bottom:1rem; border-bottom:1px solid #e8e4dc; padding-bottom:0.75rem;"><span class="restaurant-name">{name}</span><span class="count-badge">{count} options</span>{source_badge}</div>'
 
         if not dishes and active_filters:
-            card_html += '<div class="no-results-msg">No dishes match the selected filters for this restaurant.</div>'
+            card_html += '<div class="no-results-msg">No dishes match the selected filters.</div>'
+        elif not dishes:
+            card_html += '<div class="no-results-msg">Nothing made the cut at this one.</div>'
         else:
             for section, section_dishes in sections.items():
                 card_html += f'<div class="section-label">{section}</div>'
@@ -664,13 +736,12 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
                     tag_class = get_tag_class(d["category"])
                     card_html += f"""
                     <div class="dish-row">
+                        <div class="dish-info">
+                            <div class="dish-name">{d["name"]}</div>
+                            <div class="dish-reason">{d["reason"]}</div>
+                        </div>
                         <span class="tag {tag_class}">{d["category"]}</span>
-                        <div class="dish-name">{d["name"]}</div>
-                        <div class="dish-reason">{d["reason"]}</div>
                     </div>"""
-
-            if not dishes and not active_filters:
-                card_html += '<div class="dish-reason" style="margin-top:1rem">No vegetarian or vegan options found.</div>'
 
         if show_hint:
             card_html += '<div class="section-hint">Want to check a specific section like Dinner or Happy Hour? Paste that page\'s URL directly for more accurate results.</div>'
@@ -678,27 +749,24 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
         card_html += "</div>"
         st.markdown(card_html, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="hero-wrap">
-    <div class="hero-pattern"></div>
-    <div class="hero-title">🌿 Picky Eater</div>
-    <div class="hero-subtitle">Find vegetarian & vegan options across restaurants — before you commit to a reservation.</div>
-</div>
-""", unsafe_allow_html=True)
+# ── Header ──
+st.markdown('<p class="pe-eyebrow">Picky Eater</p>', unsafe_allow_html=True)
+st.markdown('<h1 class="pe-title">Find what you can eat<br><em>before</em> you commit.</h1>', unsafe_allow_html=True)
+st.markdown('<p class="pe-subtitle">Paste up to 5 restaurant URLs. We scan the menu and surface vegetarian and vegan options — with honest caveats.</p>', unsafe_allow_html=True)
+st.markdown('<hr class="pe-divider">', unsafe_allow_html=True)
 
-col_left, col_center, col_right = st.columns([1, 2, 1])
-with col_center:
-    with st.form("restaurant_form"):
-        urls = []
-        for i in range(5):
-            c1, c2 = st.columns([0.05, 0.95])
-            with c1:
-                st.markdown(f"<div style='padding-top:8px; color:#a8c8a8; font-size:0.8rem; font-weight:500;'>{i+1}</div>", unsafe_allow_html=True)
-            with c2:
-                url = st.text_input(f"url_{i}", key=f"url_{i}", placeholder="Paste a menu URL here...", label_visibility="collapsed")
-                urls.append(url)
-        st.caption("Supports restaurant website URLs, PDF menus, and image-based menus. Results may vary by site.")
-        submitted = st.form_submit_button("Find Options")
+# ── Input form ──
+with st.form("restaurant_form"):
+    urls = []
+    for i in range(5):
+        c1, c2 = st.columns([0.05, 0.95])
+        with c1:
+            st.markdown(f"<div class='url-row-num'>{i+1}</div>", unsafe_allow_html=True)
+        with c2:
+            url = st.text_input(f"url_{i}", key=f"url_{i}", placeholder="Paste a menu URL here...", label_visibility="collapsed")
+            urls.append(url)
+    st.caption("Supports restaurant websites, PDF menus, and image-based menus. Results may vary.")
+    submitted = st.form_submit_button("Find Options")
 
 if submitted:
     restaurant_urls = [u.strip() for u in urls if u.strip()]
@@ -706,13 +774,11 @@ if submitted:
     if not restaurant_urls:
         st.warning("Please enter at least one restaurant URL.")
     else:
-        st.markdown("---")
+        st.markdown('<hr class="pe-divider">', unsafe_allow_html=True)
         progress_placeholder = st.empty()
         progress_placeholder.markdown("""
-        <div style='background:white; border-radius:14px; padding:20px 24px;
-        border:1px solid #d4e8d4; color:#7a9e7e; font-size:0.85rem;'>
-            🌿 Scanning menus — this usually takes 20-40 seconds...
-        </div>""", unsafe_allow_html=True)
+        <div class="loading-bar">Scanning menus — this usually takes 20–40 seconds…</div>
+        """, unsafe_allow_html=True)
 
         all_cards = []
         completed = 0
@@ -734,16 +800,28 @@ if "all_cards" in st.session_state and st.session_state["all_cards"]:
     all_cards = st.session_state["all_cards"]
     all_cards.sort(key=lambda x: (x[0], x[1]))
 
-    active_filters = st.multiselect(
-        "Filter by category",
-        options=list(FILTER_OPTIONS.keys()),
-        default=[],
-        max_selections=3,
-        label_visibility="collapsed",
-        placeholder="Filter by category — select up to 3"
-    )
+    st.markdown('<hr class="pe-divider">', unsafe_allow_html=True)
 
-    st.markdown('<div class="results-title">Results</div>', unsafe_allow_html=True)
+    # Filter pills
+    try:
+        active_filters = st.pills(
+            "Filter",
+            options=list(FILTER_OPTIONS.keys()),
+            selection_mode="multi",
+            label_visibility="collapsed"
+        )
+    except Exception:
+        active_filters = st.multiselect(
+            "Filter by category",
+            options=list(FILTER_OPTIONS.keys()),
+            default=[],
+            max_selections=3,
+            label_visibility="collapsed",
+            placeholder="Filter by category"
+        )
+
+    total_restaurants = len(set(c[0] for c in all_cards))
+    st.markdown(f'<div class="results-label">Results — {total_restaurants} restaurant{"s" if total_restaurants != 1 else ""}</div>', unsafe_allow_html=True)
 
     grouped = {}
     for card in all_cards:
@@ -754,14 +832,11 @@ if "all_cards" in st.session_state and st.session_state["all_cards"]:
 
     for idx in sorted(grouped.keys()):
         group = grouped[idx]
-        num = len(group)
-        cols = st.columns(min(num, 4))
-        for i, (_, _, name, status, data, show_hint) in enumerate(group):
-            with cols[i % min(num, 4)]:
-                render_card(name, status, data, show_hint, active_filters)
+        for (_, _, name, status, data, show_hint) in group:
+            render_card(name, status, data, show_hint, active_filters)
 
     st.markdown("""
     <div class="disclaimer">
-        Results are AI-generated and may occasionally misclassify dishes.
+        Results are AI-generated and may occasionally misclassify dishes.<br>
         Always verify with the restaurant for strict dietary requirements.
     </div>""", unsafe_allow_html=True)
