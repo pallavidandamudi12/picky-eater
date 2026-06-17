@@ -729,4 +729,39 @@ if submitted:
 
         progress_placeholder.empty()
         st.session_state["all_cards"] = all_cards
+
 if "all_cards" in st.session_state and st.session_state["all_cards"]:
+    all_cards = st.session_state["all_cards"]
+    all_cards.sort(key=lambda x: (x[0], x[1]))
+
+    active_filters = st.multiselect(
+        "Filter by category",
+        options=list(FILTER_OPTIONS.keys()),
+        default=[],
+        max_selections=3,
+        label_visibility="collapsed",
+        placeholder="Filter by category — select up to 3"
+    )
+
+    st.markdown('<div class="results-title">Results</div>', unsafe_allow_html=True)
+
+    grouped = {}
+    for card in all_cards:
+        idx = card[0]
+        if idx not in grouped:
+            grouped[idx] = []
+        grouped[idx].append(card)
+
+    for idx in sorted(grouped.keys()):
+        group = grouped[idx]
+        num = len(group)
+        cols = st.columns(min(num, 4))
+        for i, (_, _, name, status, data, show_hint) in enumerate(group):
+            with cols[i % min(num, 4)]:
+                render_card(name, status, data, show_hint, active_filters)
+
+    st.markdown("""
+    <div class="disclaimer">
+        Results are AI-generated and may occasionally misclassify dishes.
+        Always verify with the restaurant for strict dietary requirements.
+    </div>""", unsafe_allow_html=True)
