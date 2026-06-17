@@ -729,5 +729,4 @@ if submitted:
 
         progress_placeholder.empty()
         st.session_state["all_cards"] = all_cards
-
-if "all_cards" in st.session_state and st.session_state["all_ca
+if "all_cards" in st.session_state and st.session_state["all_cards"]:
