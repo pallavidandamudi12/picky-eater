@@ -256,6 +256,7 @@ LANGUAGE RULE: Menus may be in any language including Thai, Italian, French, Spa
 - Italian: "polpo" is octopus, "tonno" is tuna, "acciughe" is anchovies, "prosciutto" is ham - exclude them
 - French: "canard" is duck, "saumon" is salmon, "thon" is tuna, "poulet" is chicken, "boeuf" is beef, "veau" is veal, "agneau" is lamb, "porc" is pork, "lapin" is rabbit, "lardons" are bacon bits, "jambon" is ham, "andouille" is sausage, "boudin" is blood sausage, "moules" are mussels, "crevettes" are shrimp, "homard" is lobster, "crabe" is crab, "huitres" are oysters, "Saint-Jacques" or "coquilles" are scallops, "foie" is liver - exclude all of these
 - French salads often contain lardons (bacon) even if not in the name - mark as UNSURE if salad description is unclear
+- Spanish: "jamon" is ham, "cerdo" is pork, "pollo" is chicken, "ternera" is veal, "cordero" is lamb, "atun" is tuna, "gambas" are shrimp, "pulpo" is octopus, "chorizo" is pork sausage, "butifarra" is sausage, "morcilla" is blood sausage, "anchoas" are anchovies - exclude all of these
 - When in doubt about a foreign language dish name, mark as POSSIBLE VEGETARIAN rather than VEGETARIAN
 
 UNSURE is ONLY for dishes where you have absolutely zero information about ingredients.
@@ -272,11 +273,19 @@ Key exclusions - exclude these silently:
 - Pad Thai traditionally contains fish sauce - exclude it
 - Any dish with bacon anywhere in the description - exclude it
 - Meatballs always contain meat - exclude them
+- Caviar and fish roe are fish products - exclude them entirely
+- Any dish containing jamon serrano, jamon iberico, or any cured ham - exclude it
 
-Egg rules:
+Egg and dairy rules:
 - Any dish with egg or eggs as an ingredient cannot be VEGAN SAFE - mark as CONTAINS EGGS
 - Eggs are never vegan regardless of cooking method or context
 - CRITICAL: "Eggplant" and "aubergine" are vegetables - they contain NO eggs. Never mark eggplant or aubergine as CONTAINS EGGS.
+- Aioli contains egg - any dish with aioli cannot be VEGAN SAFE, mark as VEGETARIAN
+
+VEGAN SAFE rule - STRICT:
+- Only mark a dish VEGAN SAFE if the description explicitly lists ingredients that confirm it is vegan (e.g. "roasted vegetables, olive oil, sea salt")
+- If ingredients are not listed or are ambiguous, mark as VEGETARIAN instead
+- Do NOT assume vegan based on the absence of animal products in the description
 
 Other rules:
 1. Do not use words like Remove, Skip, Excluded, Cannot anywhere in output
@@ -373,7 +382,7 @@ def fetch_html_content(url):
         "sys.stdout.buffer.write(soup.get_text(separator='\\n', strip=True).encode('utf-8'))\n"
     )
     result = subprocess.run(
-        ["py", "-c", script],
+        ["python3", "-c", script],
         capture_output=True,
         timeout=30,
         env={**os.environ, "PYTHONIOENCODING": "utf-8"}
@@ -396,7 +405,7 @@ def fetch_html_raw(url):
         "sys.stdout.buffer.write(content.encode('utf-8'))\n"
     )
     result = subprocess.run(
-        ["py", "-c", script],
+        ["python3", "-c", script],
         capture_output=True,
         timeout=30,
         env={**os.environ, "PYTHONIOENCODING": "utf-8"}
@@ -613,12 +622,13 @@ def matches_filter(category, active_filters):
 
 def render_card(name, status, data, show_hint=False, active_filters=None):
     if status == "BLOCKED":
+        google_url = f"https://www.google.com/search?q={name.replace(' ', '+')}+menu"
         st.markdown(f"""
         <div class="restaurant-card">
             <h3>{name}</h3>
             <div class="dish-reason" style="margin-top:1rem">
                 This restaurant does not permit AI processing.<br>
-                Try searching for their menu on Google directly.
+                <a href="{google_url}" target="_blank" style="color:#7a9e7e;">Search for their menu on Google</a>
             </div>
         </div>""", unsafe_allow_html=True)
     elif status == "ERROR":
@@ -631,8 +641,11 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
         </div>""", unsafe_allow_html=True)
     else:
         dishes = data
+        # Hide UNSURE by default unless explicitly filtered for
         if active_filters:
             dishes = [d for d in dishes if matches_filter(d["category"], active_filters)]
+        else:
+            dishes = [d for d in dishes if "UNSURE" not in d["category"].upper()]
 
         count = len(dishes)
         sections = {}
@@ -717,38 +730,4 @@ if submitted:
         progress_placeholder.empty()
         st.session_state["all_cards"] = all_cards
 
-if "all_cards" in st.session_state and st.session_state["all_cards"]:
-    all_cards = st.session_state["all_cards"]
-    all_cards.sort(key=lambda x: (x[0], x[1]))
-
-    active_filters = st.multiselect(
-        "Filter by category",
-        options=list(FILTER_OPTIONS.keys()),
-        default=[],
-        max_selections=3,
-        label_visibility="collapsed",
-        placeholder="Filter by category — select up to 3"
-    )
-
-    st.markdown('<div class="results-title">Results</div>', unsafe_allow_html=True)
-
-    grouped = {}
-    for card in all_cards:
-        idx = card[0]
-        if idx not in grouped:
-            grouped[idx] = []
-        grouped[idx].append(card)
-
-    for idx in sorted(grouped.keys()):
-        group = grouped[idx]
-        num = len(group)
-        cols = st.columns(min(num, 4))
-        for i, (_, _, name, status, data, show_hint) in enumerate(group):
-            with cols[i % min(num, 4)]:
-                render_card(name, status, data, show_hint, active_filters)
-
-    st.markdown("""
-    <div class="disclaimer">
-        Results are AI-generated and may occasionally misclassify dishes.
-        Always verify with the restaurant for strict dietary requirements.
-    </div>""", unsafe_allow_html=True)
+if "all_cards" in st.session_state and st.session_state["all_ca
