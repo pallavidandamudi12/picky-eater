@@ -25,12 +25,12 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
-    background-color: #faf8f5;
-    color: #1a1a18;
+    background-color: #f5f0e8;
+    color: #1a1a14;
 }
 
 .main, .block-container {
-    background-color: #faf8f5;
+    background-color: #f5f0e8;
     padding-top: 3rem;
     max-width: 720px;
 }
@@ -39,57 +39,63 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
 .pe-eyebrow {
     font-size: 0.7rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #9a9a92;
-    margin-bottom: 0.5rem;
+    color: #5a7a4a;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
 }
 
 .pe-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 2.6rem;
-    color: #1a1a18;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.01em;
+    font-size: 2.8rem;
+    color: #1a1a14;
+    line-height: 1.08;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
 }
 
 .pe-subtitle {
     font-size: 0.95rem;
-    color: #6a6a62;
+    color: #7a7a6a;
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 1.7;
     margin-bottom: 0;
 }
 
 .pe-divider {
     border: none;
-    border-top: 1px solid #e8e4dc;
+    border-top: 1px solid #ddd8cc;
     margin: 2rem 0;
 }
 
 .stTextInput > div > div > input {
     background: transparent !important;
     border: none !important;
-    border-bottom: 1px solid #e8e4dc !important;
+    border-bottom: 1px solid #ddd8cc !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 8px 0 !important;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
-    color: #1a1a18;
+    color: #1a1a14;
+    background-color: transparent !important;
 }
 
 .stTextInput > div > div > input:focus {
-    border-bottom: 1px solid #1a1a18 !important;
+    border-bottom: 1px solid #5a7a4a !important;
     box-shadow: none !important;
 }
 
+.stTextInput > div {
+    background-color: transparent !important;
+}
+
 .stButton > button {
-    background: #1a1a18;
-    color: #faf8f5;
+    background: #3a5a2a;
+    color: #f5f0e8;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 0.65rem 2rem;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
@@ -103,25 +109,9 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
 .url-row-num {
     font-size: 0.75rem;
-    color: #c8c4bc;
+    color: #b8b4a8;
     padding-top: 10px;
     font-weight: 500;
-}
-
-.pe-filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
-}
-
-.pe-filter-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #9a9a92;
-    margin-right: 4px;
 }
 
 .restaurant-block {
@@ -130,23 +120,23 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
 .restaurant-name {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.5rem;
-    color: #1a1a18;
+    font-size: 1.6rem;
+    color: #1a1a14;
     margin-bottom: 0;
     display: inline;
 }
 
 .count-badge {
     font-size: 0.72rem;
-    color: #9a9a92;
+    color: #9a9a8a;
     margin-left: 10px;
     font-weight: 400;
     font-family: 'DM Sans', sans-serif;
 }
 
 .source-badge {
-    background: #f5f0e8;
-    color: #7a5a10;
+    background: #e8e0cc;
+    color: #6a4a10;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 0.65rem;
@@ -159,14 +149,14 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #b8b4ac;
+    color: #5a7a4a;
     margin-top: 1.25rem;
     margin-bottom: 0.4rem;
 }
 
 .dish-row {
-    padding: 0.65rem 0;
-    border-bottom: 1px solid #f0ece4;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #e8e2d8;
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -175,106 +165,123 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 .dish-row:last-child { border-bottom: none; }
 
 .dish-info { flex: 1; }
-.dish-name { font-weight: 500; color: #1a1a18; font-size: 0.92rem; margin-bottom: 2px; }
-.dish-reason { color: #9a9a92; font-size: 0.78rem; line-height: 1.4; }
+.dish-name { font-weight: 500; color: #1a1a14; font-size: 0.92rem; margin-bottom: 2px; }
+.dish-reason { color: #8a8a78; font-size: 0.78rem; line-height: 1.4; }
 
 .tag {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 3px 9px;
     border-radius: 3px;
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
-.tag-vegan { background: #173404; color: #c0dd97; }
-.tag-vegetarian { background: #eaf3de; color: #3b6d11; }
-.tag-eggs { background: #faeeda; color: #854f0b; }
-.tag-gelatin { background: #eeedfe; color: #534ab7; }
-.tag-possible { background: #f1efe8; color: #5f5e5a; }
-.tag-unsure { background: #f4f4f0; color: #8a8a82; }
+.tag-vegan { background: #2a4a14; color: #c8e0a0; }
+.tag-vegetarian { background: #dcecd0; color: #2a5010; }
+.tag-eggs { background: #f5e4c0; color: #7a4408; }
+.tag-gelatin { background: #e8e4f8; color: #4a3a9a; }
+.tag-possible { background: #e8e2d8; color: #5a5a4a; }
+.tag-unsure { background: #ede8e0; color: #8a8a78; }
 
 .blocked-card {
     padding: 1.25rem 0;
-    border-bottom: 1px solid #f0ece4;
+    border-bottom: 1px solid #e8e2d8;
 }
 
 .blocked-title {
     font-family: 'DM Serif Display', serif;
     font-size: 1.2rem;
-    color: #1a1a18;
+    color: #1a1a14;
     margin-bottom: 0.4rem;
 }
 
-.blocked-msg { font-size: 0.85rem; color: #9a9a92; }
-.blocked-link { color: #4a6a1a; text-decoration: none; }
+.blocked-msg { font-size: 0.85rem; color: #8a8a78; }
+.blocked-link { color: #3a5a2a; text-decoration: none; }
 
 .no-results-msg {
     font-size: 0.85rem;
-    color: #9a9a92;
+    color: #8a8a78;
     font-style: italic;
     padding: 0.75rem 0;
 }
 
 .section-hint {
     font-size: 0.75rem;
-    color: #b8b4ac;
+    color: #a8a89a;
     font-style: italic;
     margin-top: 1rem;
     padding-top: 0.75rem;
-    border-top: 1px solid #f0ece4;
+    border-top: 1px solid #e8e2d8;
     line-height: 1.5;
 }
 
 .results-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #9a9a92;
+    color: #5a7a4a;
     margin-bottom: 1.5rem;
+    font-weight: 500;
 }
 
 .disclaimer {
     font-size: 0.72rem;
-    color: #c8c4bc;
+    color: #b8b4a8;
     text-align: center;
     margin-top: 3rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e8e4dc;
+    border-top: 1px solid #ddd8cc;
     line-height: 1.6;
 }
 
 .stProgress > div > div > div > div {
-    background: #1a1a18 !important;
+    background: #3a5a2a !important;
     border-radius: 10px !important;
 }
 
 .stProgress > div > div {
-    background-color: #e8e4dc !important;
+    background-color: #ddd8cc !important;
     border-radius: 10px !important;
     height: 3px !important;
 }
 
 .loading-bar {
-    background: #faf8f5;
-    border: 1px solid #e8e4dc;
-    border-radius: 8px;
+    background: #ede8e0;
+    border: 1px solid #ddd8cc;
+    border-radius: 6px;
     padding: 16px 20px;
     font-size: 0.85rem;
-    color: #6a6a62;
+    color: #6a6a58;
 }
 
-/* Pills via Streamlit pills component */
+/* Form container */
+[data-testid="stForm"] {
+    background: #ede8e0 !important;
+    border: 1px solid #ddd8cc !important;
+    border-radius: 8px !important;
+    padding: 1.25rem !important;
+}
+
+/* Pills */
 .stPills [data-baseweb="button-group"] button {
     font-size: 0.75rem !important;
     border-radius: 20px !important;
-    border: 1px solid #e8e4dc !important;
+    border: 1px solid #ddd8cc !important;
     font-family: 'DM Sans', sans-serif !important;
     font-weight: 400 !important;
+    background: #ede8e0 !important;
+    color: #5a5a4a !important;
+}
+
+.stPills [data-baseweb="button-group"] button[aria-pressed="true"] {
+    background: #3a5a2a !important;
+    color: #f5f0e8 !important;
+    border-color: #3a5a2a !important;
 }
 </style>
 """, unsafe_allow_html=True)
