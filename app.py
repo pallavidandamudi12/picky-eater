@@ -115,7 +115,11 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 }
 
 .restaurant-block {
-    margin-bottom: 2.5rem;
+    background: #fff;
+    border: 1px solid #d4e8d4;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 1.25rem;
 }
 
 .restaurant-name {
@@ -170,11 +174,11 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
 .tag {
     display: inline-block;
-    padding: 3px 9px;
-    border-radius: 3px;
-    font-size: 0.6rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     white-space: nowrap;
     flex-shrink: 0;
@@ -251,12 +255,14 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 }
 
 .loading-bar {
-    background: #ede8e0;
-    border: 1px solid #ddd8cc;
+    background: #3a5a2a;
+    border: none;
     border-radius: 6px;
-    padding: 16px 20px;
-    font-size: 0.85rem;
-    color: #6a6a58;
+    padding: 16px 22px;
+    font-size: 0.88rem;
+    color: #c8e0a0;
+    font-weight: 500;
+    letter-spacing: 0.01em;
 }
 
 /* Form container */
