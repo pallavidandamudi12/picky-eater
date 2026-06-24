@@ -356,6 +356,18 @@ Egg and dairy rules:
 - CRITICAL: "Eggplant" and "aubergine" are vegetables - they contain NO eggs. Never mark eggplant or aubergine as CONTAINS EGGS.
 - Aioli contains egg - any dish with aioli cannot be VEGAN SAFE, mark as VEGETARIAN or CONTAINS EGGS
 
+BAKED GOODS AND DESSERT RULE:
+The following categories almost always contain eggs unless explicitly stated otherwise. Mark as CONTAINS EGGS by default unless the description explicitly confirms egg-free or vegan:
+- Cakes (carrot cake, chocolate cake, birthday cake, layer cake, cheesecake, etc.)
+- Cookies and biscuits
+- Brownies
+- Custards, puddings, and crème brûlée
+- Pies with custard or cream fillings (banana cream pie, key lime pie, etc.)
+- Pastries, croissants, and brioche
+- Waffles, pancakes, and crepes
+- Soufflés and mousses
+Only mark these as VEGETARIAN if the description explicitly confirms no eggs (e.g., "vegan", "egg-free", or lists only non-egg ingredients).
+
 VEGAN SAFE rule - STRICT:
 - Only mark a dish VEGAN SAFE if the description explicitly lists ingredients that confirm it is vegan (e.g. "roasted vegetables, olive oil, sea salt")
 - If ingredients are not listed or are ambiguous, mark as VEGETARIAN instead
@@ -823,23 +835,41 @@ if "all_cards" in st.session_state and st.session_state["all_cards"]:
 
     st.markdown('<hr class="pe-divider">', unsafe_allow_html=True)
 
-    # Filter pills
-    try:
-        active_filters = st.pills(
-            "Filter",
-            options=list(FILTER_OPTIONS.keys()),
-            selection_mode="multi",
-            label_visibility="collapsed"
-        )
-    except Exception:
-        active_filters = st.multiselect(
-            "Filter by category",
-            options=list(FILTER_OPTIONS.keys()),
-            default=[],
-            max_selections=3,
-            label_visibility="collapsed",
-            placeholder="Filter by category"
-        )
+    # Build dynamic filter options from actual categories present in results
+    # Exclude UNSURE from filter options entirely
+    present_categories = set()
+    for card in all_cards:
+        _, _, _, status, data, _ = card
+        if status in ("DONE", "VISION") and isinstance(data, list):
+            for dish in data:
+                cat = dish.get("category", "").upper()
+                if "UNSURE" not in cat:
+                    present_categories.add(dish.get("category", ""))
+
+    # Preserve display order
+    CATEGORY_ORDER = ["VEGAN SAFE", "VEGETARIAN", "CONTAINS EGGS", "CONTAINS GELATIN", "POSSIBLE VEGETARIAN"]
+    available_filters = [
+        label for label, val in FILTER_OPTIONS.items()
+        if val in present_categories and "UNSURE" not in val
+    ]
+
+    active_filters = []
+    if available_filters:
+        try:
+            active_filters = st.pills(
+                "Filter",
+                options=available_filters,
+                selection_mode="multi",
+                label_visibility="collapsed"
+            )
+        except Exception:
+            active_filters = st.multiselect(
+                "Filter by category",
+                options=available_filters,
+                default=[],
+                label_visibility="collapsed",
+                placeholder="Filter by category"
+            )
 
     total_restaurants = len(set(c[0] for c in all_cards))
     st.markdown(f'<div class="results-label">Results — {total_restaurants} restaurant{"s" if total_restaurants != 1 else ""}</div>', unsafe_allow_html=True)
