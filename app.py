@@ -376,7 +376,8 @@ VEGAN SAFE rule - STRICT:
 Other rules:
 1. Do not use words like Remove, Skip, Excluded, Cannot anywhere in output
 2. Do not include beverages, cocktails, wines or drinks
-3. If a section has nothing suitable write: SECTION: [name] then EMPTY on the next line
+3. If a section has nothing suitable write: SECTION: [name] then EMPTY on the next line — do NOT write DISH lines with EMPTY as the category
+4. Never use EMPTY as a dish category. If a dish should be excluded, exclude it silently — do not list it at all
 4. Panna cotta contains gelatin - mark as VEGETARIAN + CONTAINS GELATIN
 5. French onion soup - mark as UNSURE only if no broth type is mentioned"""
 
@@ -678,7 +679,7 @@ def parse_result(text):
                 dish_name = parts[0].strip()
                 category = parts[1].strip() if len(parts) > 1 else "UNSURE"
                 reason = parts[2].strip() if len(parts) > 2 else ""
-                if any(bad in category.lower() for bad in ["excluded", "not vegetarian", "contains meat", "contains fish"]):
+                if any(bad in category.lower() for bad in ["excluded", "not vegetarian", "contains meat", "contains fish", "empty"]):
                     continue
                 if any(bad in reason.lower() for bad in bad_reason_words):
                     continue
