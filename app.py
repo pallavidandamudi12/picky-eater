@@ -25,12 +25,12 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
-    background-color: #f5f0e8;
-    color: #1a1a14;
+    background-color: #c8dcc0;
+    color: #1a2a14;
 }
 
 .main, .block-container {
-    background-color: #f5f0e8;
+    background-color: #c8dcc0;
     padding-top: 3rem;
     max-width: 720px;
 }
@@ -41,7 +41,7 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #5a7a4a;
+    color: #3a5a2a;
     margin-bottom: 0.75rem;
     font-weight: 500;
 }
@@ -49,7 +49,7 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 .pe-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2.8rem;
-    color: #1a1a14;
+    color: #1a2a14;
     line-height: 1.08;
     margin-bottom: 0.75rem;
     letter-spacing: -0.02em;
@@ -57,7 +57,7 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
 .pe-subtitle {
     font-size: 0.95rem;
-    color: #7a7a6a;
+    color: #4a6a3a;
     font-weight: 300;
     line-height: 1.7;
     margin-bottom: 0;
@@ -65,7 +65,7 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 
 .pe-divider {
     border: none;
-    border-top: 1px solid #ddd8cc;
+    border-top: 1px solid #a8c8a0;
     margin: 2rem 0;
 }
 
@@ -131,11 +131,19 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 }
 
 .count-badge {
-    font-size: 0.72rem;
-    color: #9a9a8a;
+    display: inline-block;
+    background: #c8dcc0;
+    color: #2a4a1a;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
     margin-left: 10px;
-    font-weight: 400;
+    vertical-align: middle;
+    position: relative;
+    top: -3px;
     font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.02em;
 }
 
 .source-badge {
@@ -736,7 +744,7 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
             sections.setdefault(d["section"], []).append(d)
 
         source_badge = '<span class="source-badge">via image</span>' if status == "VISION" else ""
-        card_html = f'<div class="restaurant-block"><div style="margin-bottom:1rem; border-bottom:1px solid #e8e4dc; padding-bottom:0.75rem;"><span class="restaurant-name">{name}</span><span class="count-badge">{count} options</span>{source_badge}</div>'
+        card_html = f'<div class="restaurant-block"><div style="margin-bottom:1rem; border-bottom:1px solid #d4e8d4; padding-bottom:0.75rem;"><span class="restaurant-name">{name}</span><span class="count-badge">{count} options</span>{source_badge}</div>'
 
         if not dishes and active_filters:
             card_html += '<div class="no-results-msg">No dishes match the selected filters.</div>'
@@ -770,15 +778,15 @@ st.markdown('<hr class="pe-divider">', unsafe_allow_html=True)
 
 # ── Input form ──
 with st.form("restaurant_form"):
+    st.markdown("<p style='font-size:0.82rem; color:#4a6a3a; margin-bottom:0.5rem;'>Paste up to 5 menu URLs below — restaurant websites, PDFs, or image menus.</p>", unsafe_allow_html=True)
     urls = []
     for i in range(5):
         c1, c2 = st.columns([0.05, 0.95])
         with c1:
             st.markdown(f"<div class='url-row-num'>{i+1}</div>", unsafe_allow_html=True)
         with c2:
-            url = st.text_input(f"url_{i}", key=f"url_{i}", placeholder="Paste a menu URL here...", label_visibility="collapsed")
+            url = st.text_input(f"url_{i}", key=f"url_{i}", placeholder="", label_visibility="collapsed")
             urls.append(url)
-    st.caption("Supports restaurant websites, PDF menus, and image-based menus. Results may vary.")
     submitted = st.form_submit_button("Find Options")
 
 if submitted:
