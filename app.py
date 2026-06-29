@@ -56,9 +56,9 @@ h1, h2, h3 { font-family: 'DM Serif Display', serif; }
 }
 
 .pe-subtitle {
-    font-size: 0.95rem;
-    color: #4a6a3a;
-    font-weight: 300;
+    font-size: 1rem;
+    color: #1a2a14;
+    font-weight: 400;
     line-height: 1.7;
     margin-bottom: 0;
 }
@@ -786,12 +786,12 @@ def render_card(name, status, data, show_hint=False, active_filters=None):
 # ── Header ──
 st.markdown('<p class="pe-eyebrow">Picky Eater</p>', unsafe_allow_html=True)
 st.markdown('<h1 class="pe-title">Find what you can eat<br><em>before</em> you commit.</h1>', unsafe_allow_html=True)
-st.markdown('<p class="pe-subtitle">Paste up to 5 restaurant URLs. We scan the menu and surface vegetarian and vegan options — with honest caveats.</p>', unsafe_allow_html=True)
+st.markdown('<p class="pe-subtitle">Paste up to 5 menu links. Picky Eater scans and surfaces vegetarian and vegan options — with honest caveats.</p>', unsafe_allow_html=True)
 st.markdown('<hr class="pe-divider">', unsafe_allow_html=True)
 
 # ── Input form ──
 with st.form("restaurant_form"):
-    st.markdown("<p style='font-size:0.82rem; color:#4a6a3a; margin-bottom:0.5rem;'>Paste up to 5 menu URLs below — restaurant websites, PDFs, or image menus.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:0.82rem; color:#4a6a3a; margin-bottom:0.5rem;'>Paste up to 5 menu links below — restaurant websites, PDFs, or image menus.</p>", unsafe_allow_html=True)
     urls = []
     for i in range(5):
         c1, c2 = st.columns([0.05, 0.95])
