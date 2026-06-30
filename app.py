@@ -343,6 +343,7 @@ Key exclusions - exclude these silently:
 - Tom Kha with chicken - exclude it
 - Pad See Ew and Pad See You contain fish sauce - exclude them
 - Pad Thai traditionally contains fish sauce - exclude it
+- Tod Mun is Thai fish cake - exclude it
 - Any dish with bacon anywhere in the description - exclude it
 - Meatballs always contain meat - exclude them
 - Caviar and fish roe are fish products - exclude them entirely
@@ -655,7 +656,7 @@ def parse_result(text):
         "sweetbread", "organ", "sole fillet", "contains shrimp",
         "contains bacon", "contains tuna", "contains salmon",
         "contains crab", "contains lobster", "anchov",
-        " - exclude", "exclude it"
+        "fish cake", " - exclude", "exclude it"
     ]
     bad_dish_names = [
         "tuna", "blt", "salmon", "shrimp", "lobster", "crab", "bacon",
@@ -665,7 +666,8 @@ def parse_result(text):
         "meatball", "polpette", "pad see ew", "pad see you", "pad thai",
         "tom kha", "sweetbread", "mackerel", "branzino", "catfish",
         "petrale", "miang pla", "khao kluk", "gaeng som pla",
-        "escargot", "snail", "mussel", "clam", "oyster", "scallop"
+        "escargot", "snail", "mussel", "clam", "oyster", "scallop",
+        "tod mun"
     ]
     for line in text.strip().split("\n"):
         line = line.strip()
